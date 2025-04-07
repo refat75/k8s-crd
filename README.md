@@ -1,12 +1,18 @@
 # Custom Resource Definition in Kubernetes
 
-## Create CRD
+### Create CRD 
 ```shell
 $ kubectl apply -f crd.yaml
 ```
-## Get the Custom Resource (song)
+### Now run the client-go code using:
 ```shell
-$ kubectl get songs
+$ go run main.go
+```
+## Necessary Command
+```shell
+$ kubectl get crds #get the crds
+$ kubectl get songs #get the cr(song)
+$ kubectl get songs.music.sportshead.dev my-favourite-song -n default -o yaml #Detailed information of existing cr
 ```
 
 ## Delete CRD
