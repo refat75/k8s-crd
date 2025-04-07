@@ -23,7 +23,7 @@ source "${CODEGEN_PKG}/kube_codegen.sh"
 #     └── refat75
 #         └── codegen-demo
 # We can use soft links in order to fake this layout, such that
-# ./github.com/sportshead/codegen-demo resolves to ././../codegen-demo, or ./.
+# ./github.com/refat75/codegen-demo resolves to ././../codegen-demo, or ./.
 ln -s . github.com
 ln -s .. refat75
 trap "rm github.com && rm refat75" EXIT

@@ -1,0 +1,12 @@
+apiVersion: music.sportshead.dev/v1
+kind: Song
+metadata:
+  name: my-favourite-song
+  namespace: default
+spec:
+  title: "Shape of You"
+  artist: "Ed Sheeran"
+  rating: 5
+  genres:
+    - "Pop"
+    - "Dancehall"

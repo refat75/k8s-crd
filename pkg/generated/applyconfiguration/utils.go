@@ -5,7 +5,7 @@ package applyconfiguration
 import (
 	internal "github.com/refat75/codegen/pkg/generated/applyconfiguration/internal"
 	musicsportsheaddevv1 "github.com/refat75/codegen/pkg/generated/applyconfiguration/music.sportshead.dev/v1"
-	v1 "github.com/refat75/k8s-crd/pkg/apis/music.sportshead.dev/v1"
+	v1 "github.com/refat75/codegen/pkg/apis/music.sportshead.dev/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"

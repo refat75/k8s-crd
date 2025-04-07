@@ -3,7 +3,7 @@
 package scheme
 
 import (
-	musicv1 "github.com/refat75/k8s-crd/pkg/apis/music.sportshead.dev/v1"
+	musicv1 "github.com/refat75/codegen/pkg/apis/music.sportshead.dev/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
