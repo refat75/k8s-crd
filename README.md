@@ -1,9 +1,10 @@
-# Custom Resource Definition in Kubernetes
+# Custom Resource Definition in Kubernetes  + Handling CRD with Client-go's Dynamic Package
 
 ### Create CRD 
 ```shell
 $ kubectl apply -f crd.yaml
 ```
+
 ### Now run the client-go code using:
 ```shell
 $ go run main.go
