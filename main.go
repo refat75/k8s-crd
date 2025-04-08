@@ -8,11 +8,10 @@ import (
 	"k8s.io/client-go/util/retry"
 	"os"
 
-	apiv1 "k8s.io/api/core/v1"
+	songv1 "github.com/refat75/codegen/pkg/apis/music.sportshead.dev/v1"
+	clientset "github.com/refat75/codegen/pkg/generated/clientset/versioned"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 	"path/filepath"
@@ -34,36 +33,27 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	client, err := dynamic.NewForConfig(config)
+
+	client, err := clientset.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	customRes := schema.GroupVersionResource{
-		Group:    "music.sportshead.dev",
-		Version:  "v1",
-		Resource: "songs",
-	}
-
-	song := &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "music.sportshead.dev/v1",
-			"kind":       "Song",
-			"metadata": map[string]interface{}{
-				"name": "my-favourite-song",
-			},
-			"spec": map[string]interface{}{
-				"title":  "Shape of You",
-				"artist": "Ed Sheeran",
-				"rating": 4,
-				"genres": []interface{}{"Pop", "Dancehill"},
-			},
+	song := &songv1.Song{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "my-favourite-song",
+		},
+		Spec: songv1.SongSpec{
+			Title:  "Shape of You",
+			Artist: "Ed Sheeran",
+			Rating: 4,
+			Genres: []string{"Pop", "Dancehill"},
 		},
 	}
 
 	//Create CRD -- Song Resource
 	fmt.Println("Creating custom resource(song)....")
-	result, err := client.Resource(customRes).Namespace(apiv1.NamespaceDefault).Create(context.TODO(), song, metav1.CreateOptions{})
+	result, err := client.MusicV1().Songs("default").Create(context.TODO(), song, metav1.CreateOptions{})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -73,18 +63,16 @@ func main() {
 	//Update CRD
 	fmt.Println("Updating Custom Resource(song)....")
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		result, getErr := client.Resource(customRes).Namespace(apiv1.NamespaceDefault).Get(context.TODO(), "my-favourite-song", metav1.GetOptions{})
+		result, getErr := client.MusicV1().Songs("default").Get(context.TODO(), "my-favourite-song", metav1.GetOptions{})
 		if getErr != nil {
 			panic(fmt.Errorf("Failed to get resource: %v", getErr))
 		}
 
-		//update rating to 5
-		if err := unstructured.SetNestedField(result.Object, int64(5), "spec", "rating"); err != nil {
-			panic(fmt.Errorf("Failed to set rating: %v", err))
-		}
-		_, updateErr := client.Resource(customRes).Namespace(apiv1.NamespaceDefault).Update(context.TODO(), result, metav1.UpdateOptions{})
+		result.Spec.Rating = 5
+		_, updateErr := client.MusicV1().Songs("default").Update(context.TODO(), result, metav1.UpdateOptions{})
 		return updateErr
 	})
+
 	if retryErr != nil {
 		panic(fmt.Errorf("Failed to get resource: %v", retryErr))
 	}
@@ -97,7 +85,7 @@ func main() {
 	deleteOptions := metav1.DeleteOptions{
 		PropagationPolicy: &deletePolicy,
 	}
-	if err := client.Resource(customRes).Namespace(apiv1.NamespaceDefault).Delete(context.TODO(), "my-favourite-song", deleteOptions); err != nil {
+	if err := client.MusicV1().Songs("default").Delete(context.TODO(), "my-favourite-song", deleteOptions); err != nil {
 		panic(err.Error())
 	}
 	fmt.Println("Custom Resource(song) Deleted")

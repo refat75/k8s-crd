@@ -7,7 +7,7 @@ import (
 
 	applyconfigurationmusicsportsheaddevv1 "github.com/refat75/codegen/pkg/generated/applyconfiguration/music.sportshead.dev/v1"
 	scheme "github.com/refat75/codegen/pkg/generated/clientset/versioned/scheme"
-	musicsportsheaddevv1 "github.com/refat75/k8s-crd/pkg/apis/music.sportshead.dev/v1"
+	musicsportsheaddevv1 "github.com/refat75/codegen/pkg/apis/music.sportshead.dev/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"

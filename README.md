@@ -1,4 +1,4 @@
-# Custom Resource Definition in Kubernetes  + Handling CRD with Client-go's Dynamic Package
+# Custom Resource Definition in Kubernetes  + Handling CRD with typed Package
 
 ### Create CRD 
 ```shell
