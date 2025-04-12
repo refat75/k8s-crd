@@ -20,3 +20,4 @@ $ kubectl get songs.music.sportshead.dev my-favourite-song -n default -o yaml #D
 ```shell
 $ kubectl delete -f crd.yaml
 ```
+
